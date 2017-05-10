@@ -1,15 +1,15 @@
 let View = require('ampersand-view');
 
 module.exports = View.extend({
-    template: document.querySelector('#taxi-template').innerHTML,
+    template: document.querySelector('#start-template').innerHTML,
     bindings: {
-        'model.x': '.xcord',
-        'model.y': '.ycord',
-        'model.gas': '.gas',
+        'model.car': '.car',
     },
 
     render: function(){
 
         this.renderWithTemplate();
+
+
     },
 });

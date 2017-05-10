@@ -4,6 +4,13 @@
     <head>
         <link rel="stylesheet" href="style.css">
         <script src="app.js"></script>
+
+        <script type="x-ampersand-template" id="start-template">
+            <section>
+                <p>Car Type: <span class="car"></span></p>
+            </section>
+        </script>
+
         <script type="x-ampersand-template" id="taxi-template">
             <section>
                 <p>X: <span class="xcord"></span></p>
@@ -14,8 +21,20 @@
     </head>
     <body>
         <h1>Crazy Taxi</h1>
-        <main></main>
-        <section>
+
+        <section id="cars">
+            <h3>Choose a Car Type:</h2>
+            <button id="hybrid">Hybrid</button>
+            <button id="gas-guzzler">Gas Guzzler</button>
+        </section>
+
+        <main>
+            <section id="start"></section>
+            <section id="game"></section>
+        </main>
+
+
+        <section id="navs">
             <button id="move-up">Move Up</button>
             <button id="move-down">Move Down</button>
             <button id="move-left">Move Left</button>
@@ -23,7 +42,7 @@
       </section>
 
      <section>
-        <table id='table'>
+        <table id="grid">
             <tr>
                 <td></td>
                 <td></td>

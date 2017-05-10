@@ -1,28 +1,12 @@
 // Think of app.js as "table of contents" for JS 
 
 window.addEventListener('load', function(){
-    let TaxiView = require('./views/taxi');
-    let TaxiModel = require('./models/taxi');
+    document.querySelector('#navs').classList.add('hide');
+    document.querySelector('#grid').classList.add('hide');
+    document.querySelector('#game').classList.add('hide');
 
-
-    let rowIndex = 0;
-    let cellIndex = 0;
-    document.querySelector('#table').rows[rowIndex].cells[cellIndex].classList.add('highlight');
-
-    let taxi = new TaxiModel();
-    taxi.x = 1;
-    taxi.y = 1;
-    taxi.gas = 200;
-
-    let view = new TaxiView({
-        el: document.querySelector('main'),
-        model: taxi,
-    });
-
-    view.render();
-
-    setupButtons(taxi);
-
+    start();
+    playGame();
 
 });
 
@@ -36,6 +20,7 @@ function setupButtons(model){
 
     upBtn.addEventListener('click', function (){
         model.moveUp();
+
     });
 
     downBtn.addEventListener('click', function (){
@@ -49,5 +34,74 @@ function setupButtons(model){
     rightBtn.addEventListener('click', function (){
         model.moveRight();
     });
+
+}
+
+function setupStart(model){
+
+    let hybridBtn = document.querySelector("#hybrid");
+    let guzzlerBtn = document.querySelector("#gas-guzzler");
+
+    hybridBtn.addEventListener('click', function (){
+
+    document.querySelector('#navs').classList.remove('hide');
+    document.querySelector('#grid').classList.remove('hide');
+    document.querySelector('#cars').classList.add('hide');
+
+    model.car = 'Hybrid';
+
+    });
+
+    guzzlerBtn.addEventListener('click', function (){
+
+    document.querySelector('#navs').classList.remove('hide');
+    document.querySelector('#grid').classList.remove('hide');
+    document.querySelector('#cars').classList.add('hide');
+
+    model.car = 'Gas Guzzler';
+
+    });
+}
+
+function start(){
+
+    let StartView = require('./views/start');
+    let StartModel = require('./models/start');
+
+    let start = new StartModel();
+    start.car = null;
+
+    let view = new StartView({
+        el: document.querySelector('#start'),
+        model: start,
+    });
+
+    view.render();
+
+    setupStart(start);
+
+
+}
+
+function playGame(){
+
+    let TaxiView = require('./views/taxi');
+    let TaxiModel = require('./models/taxi');
+
+    let taxi = new TaxiModel();
+    taxi.x = 9;
+    taxi.y = 9;
+    taxi.gas = 200;
+
+    let view = new TaxiView({
+        el: document.querySelector('#game'),
+        model: taxi,
+    });
+
+    view.render();
+
+    setupButtons(taxi);
+
+    document.querySelector('#grid').rows[taxi.x].cells[taxi.y].classList.add('highlight');
 
 }
