@@ -1,12 +1,43 @@
 // Think of app.js as "table of contents" for JS 
 
 window.addEventListener('load', function(){
-    document.querySelector('#navs').classList.add('hide');
-    document.querySelector('#grid').classList.add('hide');
-    document.querySelector('#game').classList.add('hide');
 
-    start();
-    playGame();
+    let TaxiModel = require('./models/taxi');
+    let StartView = require('./views/start');
+    let TaxiView = require('./views/taxi');
+
+    let taxi = new TaxiModel({
+        x : 9,
+        y : 9,
+        gas : 200,
+        car: null,
+        passX: getRandomIntInclusive(0, 19),
+        passY: getRandomIntInclusive(0, 19),
+        destX: getRandomIntInclusive(0, 19),
+        destY: getRandomIntInclusive(0, 19),
+        inUse: false,
+        tripComplete: false,
+    });
+
+    let ShowStart = new StartView({
+        el: document.querySelector('#start'),
+        model: taxi,
+    })
+
+    let ShowTaxi = new TaxiView({
+        el: document.querySelector('#game'),
+        model: taxi,
+    });
+
+    ShowStart.render();
+    ShowTaxi.render();
+
+    setupButtons(taxi);
+    setupStart(taxi);
+
+    document.querySelector('#grid').rows[taxi.x].cells[taxi.y].classList.add('highlight');
+    document.querySelector('#grid').rows[taxi.passX].cells[taxi.passY].classList.add('passhighlight');
+    document.querySelector('#grid').rows[taxi.destX].cells[taxi.destY].classList.add('desthighlight');
 
 });
 
@@ -17,10 +48,8 @@ function setupButtons(model){
     let leftBtn = document.querySelector("#move-left");
     let rightBtn = document.querySelector("#move-right");
     
-
     upBtn.addEventListener('click', function (){
         model.moveUp();
-
     });
 
     downBtn.addEventListener('click', function (){
@@ -44,64 +73,25 @@ function setupStart(model){
 
     hybridBtn.addEventListener('click', function (){
 
-    document.querySelector('#navs').classList.remove('hide');
-    document.querySelector('#grid').classList.remove('hide');
-    document.querySelector('#cars').classList.add('hide');
-
-    model.car = 'Hybrid';
+        model.car = 'Hybrid';
+        model.x = 9;
+        model.y = 9;
+        model.gas = 200;
 
     });
 
     guzzlerBtn.addEventListener('click', function (){
 
-    document.querySelector('#navs').classList.remove('hide');
-    document.querySelector('#grid').classList.remove('hide');
-    document.querySelector('#cars').classList.add('hide');
-
-    model.car = 'Gas Guzzler';
+        model.car = 'Gas Guzzler';
+        model.x = 9;
+        model.y = 9;
+        model.gas = 200;
 
     });
 }
 
-function start(){
-
-    let StartView = require('./views/start');
-    let StartModel = require('./models/start');
-
-    let start = new StartModel();
-    start.car = null;
-
-    let view = new StartView({
-        el: document.querySelector('#start'),
-        model: start,
-    });
-
-    view.render();
-
-    setupStart(start);
-
-
-}
-
-function playGame(){
-
-    let TaxiView = require('./views/taxi');
-    let TaxiModel = require('./models/taxi');
-
-    let taxi = new TaxiModel();
-    taxi.x = 9;
-    taxi.y = 9;
-    taxi.gas = 200;
-
-    let view = new TaxiView({
-        el: document.querySelector('#game'),
-        model: taxi,
-    });
-
-    view.render();
-
-    setupButtons(taxi);
-
-    document.querySelector('#grid').rows[taxi.x].cells[taxi.y].classList.add('highlight');
-
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

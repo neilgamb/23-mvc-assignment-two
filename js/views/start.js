@@ -10,6 +10,5 @@ module.exports = View.extend({
 
         this.renderWithTemplate();
 
-
     },
 });

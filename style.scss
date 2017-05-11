@@ -2,10 +2,9 @@ body {
     background-color: yellow;
 }
 
-
 td {
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 10px;
     border: solid;
     border-width: 1px;
     border-color: black;
@@ -15,6 +14,32 @@ td {
     background-color: black;
 }
 
-.hide {
-    display: none;
+.passhighlight {
+    background-color: #BA4A00;
+}
+
+.desthighlight {
+    background-color: blue;
+}
+
+#taxi {
+    font-weight: bold;
+}
+
+#pass {
+    font-weight: bold;
+    color: #BA4A00
+}
+
+#dest {
+    font-weight: bold;
+    color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
 }
