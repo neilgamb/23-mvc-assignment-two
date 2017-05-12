@@ -9,14 +9,14 @@ window.addEventListener('load', function(){
     let taxi = new TaxiModel({
         x : 9,
         y : 9,
-        gas : 200,
+        gas : 20,
         car: null,
         passX: getRandomIntInclusive(0, 19),
         passY: getRandomIntInclusive(0, 19),
         destX: getRandomIntInclusive(0, 19),
         destY: getRandomIntInclusive(0, 19),
+        totalFares: 0,
         inUse: false,
-        tripComplete: false,
     });
 
     let ShowStart = new StartView({
@@ -35,10 +35,6 @@ window.addEventListener('load', function(){
     setupButtons(taxi);
     setupStart(taxi);
 
-    document.querySelector('#grid').rows[taxi.x].cells[taxi.y].classList.add('highlight');
-    document.querySelector('#grid').rows[taxi.passX].cells[taxi.passY].classList.add('passhighlight');
-    document.querySelector('#grid').rows[taxi.destX].cells[taxi.destY].classList.add('desthighlight');
-
 });
 
 function setupButtons(model){
@@ -49,20 +45,37 @@ function setupButtons(model){
     let rightBtn = document.querySelector("#move-right");
     
     upBtn.addEventListener('click', function (){
-        model.moveUp();
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveUp();
+        }
     });
 
     downBtn.addEventListener('click', function (){
-        model.moveDown();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveDown();
+        }    });
 
     leftBtn.addEventListener('click', function (){
-        model.moveLeft();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveLeft();
+        }    });
 
     rightBtn.addEventListener('click', function (){
-        model.moveRight();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveRight();
+        }    });
 
 }
 
@@ -76,8 +89,7 @@ function setupStart(model){
         model.car = 'Hybrid';
         model.x = 9;
         model.y = 9;
-        model.gas = 200;
-
+        document.querySelector('span').classList.add('pickCar');
     });
 
     guzzlerBtn.addEventListener('click', function (){
@@ -85,8 +97,7 @@ function setupStart(model){
         model.car = 'Gas Guzzler';
         model.x = 9;
         model.y = 9;
-        model.gas = 200;
-
+        document.querySelector('span').classList.add('pickCar');
     });
 }
 

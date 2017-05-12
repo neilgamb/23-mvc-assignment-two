@@ -7,7 +7,7 @@
 
         <script type="x-ampersand-template" id="start-template">
             <section>
-                <p>Vehicle Type: <span class="car"></span></p>
+                <p>Vehicle Type: <span class="pickCar">Please Pick Vehicle Type!</span><span class="car"></span></p>
             </section>
         </script>
 
@@ -17,8 +17,9 @@
                 <p id="pass">PASSENGER ( <span class="passX"></span> , <span class="passY"></span> )</p>    
                 <p id="dest">DESTINATION ( <span class="destX"></span> , <span class="destY"></span> )</p>
                 <p>Gas: <span class="gas"></span></p>
+                <p>Total Fares: $<span class="totalFares"></span></p>
                 <p><span class="inUse"></span></p>
-                <p><span class="tripComplete"></span></p>
+                <p class="gameOver">GAME OVER!</p>
             </section>
         </script>
     </head>
@@ -483,5 +484,6 @@
                 </tr>
             </table>
      </section>
+     
     </body>
 </html>

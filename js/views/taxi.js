@@ -11,38 +11,53 @@ module.exports = View.extend({
         'model.passY': '.passY',
         'model.destX': '.destX',
         'model.destY': '.destY',
+        'model.totalFares': '.totalFares',
         'model.occupied': '.inUse',
-        'model.success': '.tripComplete',
     },
 
-    render: function(){
+    render: function () {
 
         this.renderWithTemplate();
 
     },
 
-    initialize: function(){
+    removeHighlight: function () {
+        document.querySelector('.highlight').classList.remove('highlight');
 
-        this.model.on('change', function(){
-            document.querySelector('.highlight').classList.remove('highlight');
-            document.querySelector('#grid').rows[this.x].cells[this.y].classList.add('highlight');
+        if(document.querySelector('.passhighlight') != undefined){
+        document.querySelector('.passhighlight').classList.remove('passhighlight');    
+        }
+        document.querySelector('.desthighlight').classList.remove('desthighlight');
 
-            if(this.inUse === true){
-                document.querySelector('.passhighlight').classList.add('yellow');
-                document.querySelector('.highlight').classList.add('green');
-            } 
+    },
 
-            if(this.tripComplete === true){
+    addHighlight: function () {
+        document.querySelector('#grid').rows[this.model.x].cells[this.model.y].classList.add('highlight');
+        
+        if(!this.model.inUse){
+        document.querySelector('#grid').rows[this.model.passX].cells[this.model.passY].classList.add('passhighlight');
+        }
+        document.querySelector('#grid').rows[this.model.destX].cells[this.model.destY].classList.add('desthighlight');
 
-                for(let i = 0; i < 20; i++){
-                    for(let p = 0; p < 20; p++){
-                        document.querySelector('#grid').rows[i].cells[p].classList.add('green');
-                    }
-                }
+    },
 
-            } 
+    gameOver: function(){
+        if(this.model.gas === 0){
+            console.log("game over");
+            document.querySelector('.gameOver').classList.remove('gameOver');    
+        }
+    },
+
+    initialize: function () {
+        let view = this;
+        this.addHighlight();
+
+        this.model.on('change', function () {
+
+            view.removeHighlight();
+            view.addHighlight();
+            view.gameOver();
+
         });
-
-
     },
 });

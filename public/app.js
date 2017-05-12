@@ -10,14 +10,14 @@ window.addEventListener('load', function(){
     let taxi = new TaxiModel({
         x : 9,
         y : 9,
-        gas : 200,
+        gas : 20,
         car: null,
         passX: getRandomIntInclusive(0, 19),
         passY: getRandomIntInclusive(0, 19),
         destX: getRandomIntInclusive(0, 19),
         destY: getRandomIntInclusive(0, 19),
+        totalFares: 0,
         inUse: false,
-        tripComplete: false,
     });
 
     let ShowStart = new StartView({
@@ -36,10 +36,6 @@ window.addEventListener('load', function(){
     setupButtons(taxi);
     setupStart(taxi);
 
-    document.querySelector('#grid').rows[taxi.x].cells[taxi.y].classList.add('highlight');
-    document.querySelector('#grid').rows[taxi.passX].cells[taxi.passY].classList.add('passhighlight');
-    document.querySelector('#grid').rows[taxi.destX].cells[taxi.destY].classList.add('desthighlight');
-
 });
 
 function setupButtons(model){
@@ -50,20 +46,37 @@ function setupButtons(model){
     let rightBtn = document.querySelector("#move-right");
     
     upBtn.addEventListener('click', function (){
-        model.moveUp();
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveUp();
+        }
     });
 
     downBtn.addEventListener('click', function (){
-        model.moveDown();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveDown();
+        }    });
 
     leftBtn.addEventListener('click', function (){
-        model.moveLeft();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveLeft();
+        }    });
 
     rightBtn.addEventListener('click', function (){
-        model.moveRight();
-    });
+        if(model.car === null){
+            console.log('Please Pick Vehicle Type');
+            document.querySelector('.pickCar').classList.remove('pickCar');
+        } else {
+            model.moveRight();
+        }    });
 
 }
 
@@ -77,8 +90,7 @@ function setupStart(model){
         model.car = 'Hybrid';
         model.x = 9;
         model.y = 9;
-        model.gas = 200;
-
+        document.querySelector('span').classList.add('pickCar');
     });
 
     guzzlerBtn.addEventListener('click', function (){
@@ -86,8 +98,7 @@ function setupStart(model){
         model.car = 'Gas Guzzler';
         model.x = 9;
         model.y = 9;
-        model.gas = 200;
-
+        document.querySelector('span').classList.add('pickCar');
     });
 }
 
@@ -110,8 +121,8 @@ module.exports = State.extend({
         passY: "number",
         destX: "number",
         destY: "number",
+        totalFares: "number",
         inUse: "boolean",
-        tripComplete: "boolean",
     },
 
     derived: {
@@ -119,25 +130,16 @@ module.exports = State.extend({
             deps: ['inUse'],
             fn: function(){
                 if(this.inUse){
-                    return "Passenger Picked Up";
+                    return "PASSENGER PICKED UP";
                 } else {
-                    return "En Route to Passenger";
-                }
-            }
-        }, 
-        success: {
-            deps: ['tripComplete'],
-            fn: function(){
-                if(this.tripComplete){
-                    return "Trip Complete!";
-                } else {
-                    return "Trip In Progress";
+                    return "EN ROUTE TO PASSENGER";
                 }
             }
         }, 
     },
 
     moveUp: function(){
+    
         if(this.x > 0 && this.gas > 0){
             this.x --;
 
@@ -154,6 +156,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
 
@@ -174,6 +184,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
 
     },
@@ -195,6 +213,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
 
@@ -215,9 +241,37 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
+
+    newTrip: function(){
+        this.x = 9,
+        this.y = 9,
+        this.passX = getRandomIntInclusive(0, 19),
+        this.passY = getRandomIntInclusive(0, 19),
+        this.destX = getRandomIntInclusive(0, 19),
+        this.destY = getRandomIntInclusive(0, 19),
+        this.inUse = false,
+        this.tripComplete = false
+        this.car = null;
+    },
+
 });
+
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 },{"ampersand-state":403}],3:[function(require,module,exports){
 let View = require('ampersand-view');
 
@@ -247,39 +301,54 @@ module.exports = View.extend({
         'model.passY': '.passY',
         'model.destX': '.destX',
         'model.destY': '.destY',
+        'model.totalFares': '.totalFares',
         'model.occupied': '.inUse',
-        'model.success': '.tripComplete',
     },
 
-    render: function(){
+    render: function () {
 
         this.renderWithTemplate();
 
     },
 
-    initialize: function(){
+    removeHighlight: function () {
+        document.querySelector('.highlight').classList.remove('highlight');
 
-        this.model.on('change', function(){
-            document.querySelector('.highlight').classList.remove('highlight');
-            document.querySelector('#grid').rows[this.x].cells[this.y].classList.add('highlight');
+        if(document.querySelector('.passhighlight') != undefined){
+        document.querySelector('.passhighlight').classList.remove('passhighlight');    
+        }
+        document.querySelector('.desthighlight').classList.remove('desthighlight');
 
-            if(this.inUse === true){
-                document.querySelector('.passhighlight').classList.add('yellow');
-                document.querySelector('.highlight').classList.add('green');
-            } 
+    },
 
-            if(this.tripComplete === true){
+    addHighlight: function () {
+        document.querySelector('#grid').rows[this.model.x].cells[this.model.y].classList.add('highlight');
+        
+        if(!this.model.inUse){
+        document.querySelector('#grid').rows[this.model.passX].cells[this.model.passY].classList.add('passhighlight');
+        }
+        document.querySelector('#grid').rows[this.model.destX].cells[this.model.destY].classList.add('desthighlight');
 
-                for(let i = 0; i < 20; i++){
-                    for(let p = 0; p < 20; p++){
-                        document.querySelector('#grid').rows[i].cells[p].classList.add('green');
-                    }
-                }
+    },
 
-            } 
+    gameOver: function(){
+        if(this.model.gas === 0){
+            console.log("game over");
+            document.querySelector('.gameOver').classList.remove('gameOver');    
+        }
+    },
+
+    initialize: function () {
+        let view = this;
+        this.addHighlight();
+
+        this.model.on('change', function () {
+
+            view.removeHighlight();
+            view.addHighlight();
+            view.gameOver();
+
         });
-
-
     },
 });
 },{"ampersand-view":622}],5:[function(require,module,exports){

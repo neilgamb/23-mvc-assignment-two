@@ -11,8 +11,8 @@ module.exports = State.extend({
         passY: "number",
         destX: "number",
         destY: "number",
+        totalFares: "number",
         inUse: "boolean",
-        tripComplete: "boolean",
     },
 
     derived: {
@@ -20,25 +20,16 @@ module.exports = State.extend({
             deps: ['inUse'],
             fn: function(){
                 if(this.inUse){
-                    return "Passenger Picked Up";
+                    return "PASSENGER PICKED UP";
                 } else {
-                    return "En Route to Passenger";
-                }
-            }
-        }, 
-        success: {
-            deps: ['tripComplete'],
-            fn: function(){
-                if(this.tripComplete){
-                    return "Trip Complete!";
-                } else {
-                    return "Trip In Progress";
+                    return "EN ROUTE TO PASSENGER";
                 }
             }
         }, 
     },
 
     moveUp: function(){
+    
         if(this.x > 0 && this.gas > 0){
             this.x --;
 
@@ -55,6 +46,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
 
@@ -75,6 +74,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
 
     },
@@ -96,6 +103,14 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
 
@@ -116,6 +131,34 @@ module.exports = State.extend({
 
         if(this.inUse === true && this.x === this.destX && this.y === this.destY){
             this.tripComplete = true;
+
+                if(this.car === "Hybrid"){
+                    this.totalFares = this.totalFares + 10;
+                } else {
+                    this.totalFares = this.totalFares + 20;
+                }
+
+            this.newTrip();
         }
     },
+
+    newTrip: function(){
+        this.x = 9,
+        this.y = 9,
+        this.passX = getRandomIntInclusive(0, 19),
+        this.passY = getRandomIntInclusive(0, 19),
+        this.destX = getRandomIntInclusive(0, 19),
+        this.destY = getRandomIntInclusive(0, 19),
+        this.inUse = false,
+        this.tripComplete = false
+        this.car = null;
+    },
+
 });
+
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
