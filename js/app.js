@@ -9,6 +9,9 @@ window.addEventListener('load', function(){
     let EndView = require('./views/end');
     let PassView = require('./views/pass');
 
+    let PassCollection = require('./models/passlist');
+    let PassListView = require('./views/passlist')
+
     // Models //////////////////////////////////////////
     let taxi = new TaxiModel({
         x : 9,
@@ -23,16 +26,24 @@ window.addEventListener('load', function(){
         inUse: false,
     });
 
-    let pass = new PassModel({
+    let pass1 = new PassModel({
         name : "Neilson",
         occupation: "Developer",
         status: "Waiting",
-    })
+    });
+
+    let pass2 = new PassModel({
+        name : "Colby",
+        occupation: "Developer",
+        status: "Waiting",
+    });
+
+    let list = new PassCollection([pass1, pass2]);
 
     let ShowStart = new StartView({
         el: document.querySelector('#start'),
         model: taxi,
-    })
+    });
 
     let ShowTaxi = new TaxiView({
         el: document.querySelector('#game'),
@@ -44,13 +55,18 @@ window.addEventListener('load', function(){
         model: taxi,
     });
 
+    let listView = new PassListView({
+        el: document.querySelector('#passenger'),
+        collection: list,
+    });
+
+    listView.render();
     ShowStart.render();
     ShowTaxi.render();
     ShowEnd.render();
 
     setupButtons(taxi);
     setupStart(taxi);
-
 
 });
 
