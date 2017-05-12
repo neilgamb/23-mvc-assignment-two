@@ -3,13 +3,17 @@
 window.addEventListener('load', function(){
 
     let TaxiModel = require('./models/taxi');
+    let PassModel = require('./models/pass');
     let StartView = require('./views/start');
     let TaxiView = require('./views/taxi');
+    let EndView = require('./views/end');
+    let PassView = require('./views/pass');
 
+    // Models //////////////////////////////////////////
     let taxi = new TaxiModel({
         x : 9,
         y : 9,
-        gas : 20,
+        gas : 200,
         car: null,
         passX: getRandomIntInclusive(0, 19),
         passY: getRandomIntInclusive(0, 19),
@@ -18,6 +22,12 @@ window.addEventListener('load', function(){
         totalFares: 0,
         inUse: false,
     });
+
+    let pass = new PassModel({
+        name : "Neilson",
+        occupation: "Developer",
+        status: "Waiting",
+    })
 
     let ShowStart = new StartView({
         el: document.querySelector('#start'),
@@ -29,11 +39,18 @@ window.addEventListener('load', function(){
         model: taxi,
     });
 
+    let ShowEnd = new EndView({
+        el: document.querySelector('#end'),
+        model: taxi,
+    });
+
     ShowStart.render();
     ShowTaxi.render();
+    ShowEnd.render();
 
     setupButtons(taxi);
     setupStart(taxi);
+
 
 });
 
@@ -89,7 +106,7 @@ function setupStart(model){
         model.car = 'Hybrid';
         model.x = 9;
         model.y = 9;
-        document.querySelector('span').classList.add('pickCar');
+        document.querySelector('pickCar').classList.add('pickCar');
     });
 
     guzzlerBtn.addEventListener('click', function (){
@@ -97,7 +114,7 @@ function setupStart(model){
         model.car = 'Gas Guzzler';
         model.x = 9;
         model.y = 9;
-        document.querySelector('span').classList.add('pickCar');
+        document.querySelector('pickCar').classList.add('pickCar');
     });
 }
 

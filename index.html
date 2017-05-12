@@ -7,21 +7,34 @@
 
         <script type="x-ampersand-template" id="start-template">
             <section>
-                <p>Vehicle Type: <span class="pickCar">Please Pick Vehicle Type!</span><span class="car"></span></p>
             </section>
         </script>
 
         <script type="x-ampersand-template" id="taxi-template">
-            <section>
+            <section class = "stats">
                 <p id="taxi">TAXI ( <span class="xcord"></span> , <span class="ycord"></span> )</p>
                 <p id="pass">PASSENGER ( <span class="passX"></span> , <span class="passY"></span> )</p>    
                 <p id="dest">DESTINATION ( <span class="destX"></span> , <span class="destY"></span> )</p>
-                <p>Gas: <span class="gas"></span></p>
-                <p>Total Fares: $<span class="totalFares"></span></p>
+                <p>Vehicle Type: <span class="pickCar">Please Pick Vehicle Type!</span><span class="car"></span></p>
+                <p>Gas: <span class="gas"></span> gallons</p>
                 <p><span class="inUse"></span></p>
-                <p class="gameOver">GAME OVER!</p>
             </section>
         </script>
+
+        <script type="x-ampersand-template" id="pass-template">
+            <section>
+                <p>Passenger Name: <span class="name"></span></p>
+                <p>Passenger Occupation: <span class="occupation"></span></p>
+                <p>Passenger Status: <span class="status"></span></p>
+            </section>
+        </script>
+
+        <script type="x-ampersand-template" id="end-template">
+            <section>
+                <p>Total Fares: $<span class="totalFares"></span></p>
+            </section>
+        </script>
+
     </head>
     <body>
         <h1>Crazy Taxi</h1>
@@ -34,12 +47,12 @@
         </section>
 
         <section>
+            <div id="game"></section>
+
             <button id="move-up">Move Up</button>
             <button id="move-down">Move Down</button>
             <button id="move-left">Move Left</button>
             <button id="move-right">Move Right</button>
-
-            <div id="game"></section>
 
             <table id="grid">
                 <tr>
@@ -483,7 +496,17 @@
                     <td></td>
                 </tr>
             </table>
-     </section>
+        </section>
+
+        <section>
+            <h3>Passenger Info</h3>
+            <p id="passenger"></section>
+        </section>
+
+        <section>
+            <h3>GAME OVER!</p>
+            <p id="end"></section>
+        </section>
      
     </body>
 </html>
