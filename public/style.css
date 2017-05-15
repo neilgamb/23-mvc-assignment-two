@@ -1262,7 +1262,7 @@ body {
   background-image: url("https://images6.alphacoders.com/360/360364.jpg");
   background-size: 100%;
   background-repeat: repeat;
-  font-family: Roboto;
+  font-family: 'Pathway Gothic One', sans-serif;
   color: white; }
 
 td {
@@ -1347,7 +1347,14 @@ ul {
   padding: 15px; }
 
 .title {
-  font-size: 3em;
+  font-size: 5em;
+  font-weight: normal;
   display: inline;
   word-spacing: 30px;
   letter-spacing: 20px; }
+
+body > section {
+  display: none; }
+
+.show {
+  display: block; }

@@ -11,4 +11,15 @@ module.exports = View.extend({
         this.renderWithTemplate();
 
     },
+
+    events: {
+        'click #hybrid': 'playGame',
+        'click #gas-guzzler': 'playGame',
+
+    },
+
+    playGame: function (){
+        console.log('next phase')
+        this.router.navigate('game');
+    },
 });

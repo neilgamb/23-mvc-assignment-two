@@ -46,6 +46,7 @@ window.addEventListener('load', function(){
     setupButtons(taxi);
     setupStart(taxi);
 
+    // Setup Collection
     let PassModel = require('./models/pass');
     let PassView = require('./views/pass');
     let PassCollection = require('./models/passlist');
@@ -90,9 +91,27 @@ window.addEventListener('load', function(){
 
 
     });                 
-    request.send();     
+    request.send();
 
 }
+
+    // Setup Router
+    let AppRouter = require('./router');
+
+    let router = new AppRouter();
+    router.views = {
+            start: ShowStart,
+            game: ShowTaxi,
+            end: ShowEnd,
+    };
+
+    ShowStart.router = router;
+    ShowTaxi.router = router;
+    ShowEnd.router = router;
+
+    router.history.start({
+        pushState: false,
+    });     
 
     taxi.on('change:gas', function(){
         if (taxi.x === taxi.passX && taxi.y === taxi.passY) {

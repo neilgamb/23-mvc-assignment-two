@@ -4,10 +4,12 @@
     <head>
         <link rel="stylesheet" href="style.css">
         <script src="app.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">           
-
+        <link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One" rel="stylesheet">
         <script type="x-ampersand-template" id="start-template">
             <section>
+                <p>Choose Taxi Type:</p>
+                <button id="hybrid">Hybrid</button>
+                <button id="gas-guzzler">Gas Guzzler</button>
             </section>
         </script>
 
@@ -47,21 +49,21 @@
     <body>
         <h1 class="title">CRAZY TAXI</h1>
 
-        <section>
-            <p>Choose Taxi Type:</p>
-            <button id="hybrid">Hybrid</button>
-            <button id="gas-guzzler">Gas Guzzler</button>
-            <p id="start"></section>
+        <section id="sectionOne" class='show'>
+            <p id="start">
         </section>
 
-        <section>
-            <div id="game"></section>
+        <section id="sectionTwo">
+            <div id="game"></div>
 
-            <button id="move-up">Move Up</button>
-            <button id="move-down">Move Down</button>
-            <button id="move-left">Move Left</button>
-            <button id="move-right">Move Right</button>
+            <div class="dPad">
+                <button id="move-up">Move Up</button>
+                <button id="move-down">Move Down</button>
+                <button id="move-left">Move Left</button>
+                <button id="move-right">Move Right</button>
+            </div>
 
+            <div class="board">
             <table id="grid">
                 <tr>
                     <td></td>
@@ -504,13 +506,14 @@
                     <td></td>
                 </tr>
             </table>
+            </div>
+
+            <div class="passes">
+                <p id="passenger"></section>
+            </div>
         </section>
 
-        <section>
-            <p id="passenger"></section>
-        </section>
-
-        <section>
+        <section id="sectionThree">
             <h3>GAME OVER!</p>
             <p id="end"></section>
         </section>
