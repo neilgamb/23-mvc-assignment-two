@@ -1,6 +1,9 @@
 // Think of app.js as "table of contents" for JS 
 
+
 window.addEventListener('load', function(){
+
+    let passNum = 0;
 
     let TaxiModel = require('./models/taxi');
     let StartView = require('./views/start');
@@ -49,10 +52,12 @@ window.addEventListener('load', function(){
     let PassListView = require('./views/passlist');
 
     let pass1 = new PassModel({
+        passNum : passNum,
         name : "Neilson",
         occupation: "Developer",
         status: "Waiting",
     });
+
 
     let list = new PassCollection([pass1]);
 
@@ -63,8 +68,42 @@ window.addEventListener('load', function(){
 
     listView.render();
     
+    function addNewPassenger(){
 
-    changeStatus(taxi, list);
+    passNum++;
+
+    let request = new XMLHttpRequest(); 
+    request.open('GET', 'https://randomuser.me/api/');  
+    request.addEventListener('load', function(){
+
+
+        let response = JSON.parse(request.responseText);
+
+        let newPass = new PassModel({
+        passNum : passNum,
+        name : response.results[0].name.first,
+        occupation: getRandomOccupation(jobArray),
+        status: "Waiting",
+    });
+    
+    list.add(newPass);
+
+
+    });                 
+    request.send();     
+
+}
+
+    taxi.on('change:gas', function(){
+        if (taxi.x === taxi.passX && taxi.y === taxi.passY) {
+            list.models[passNum].status = "Picked Up";
+            
+        }
+        if (taxi.x === taxi.destX && taxi.y === taxi.destY) {
+            list.models[passNum].status = "Dropped Off";
+            addNewPassenger();
+        }
+    });
 
 
 });
@@ -144,20 +183,15 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function changeStatus(model, collection){
-    model.on('change', function(){
-        let currentPass = 0;
-        if (model.x === model.passX && model.y === model.passY) {
-            collection.models[currentPass].status = "Picked Up";
-            console.log(collection.models[currentPass].status);
-            
-        }
-        if (model.x === model.destX && model.y === model.destY) {
-            collection.models[currentPass].status = "Dropped Off";
-            console.log(collection.models[currentPass].status);
-            
-        }
-    });
+function getRandomOccupation (array){
+    let rand = array[Math.floor(Math.random() * array.length)];
+    return rand;
 }
+
+let jobArray = ["Coder", "Banker", "Florist", "Artist", "Designer", "Plumber", "Cop", "Teacher", "Baker", "Mechanic", "Lawyer"];
+
+
+
+
 
 

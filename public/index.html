@@ -4,6 +4,7 @@
     <head>
         <link rel="stylesheet" href="style.css">
         <script src="app.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">           
 
         <script type="x-ampersand-template" id="start-template">
             <section>
@@ -22,10 +23,10 @@
         </script>
 
         <script type="x-ampersand-template" id="pass-template">
-            <section>
-                <p>Passenger Name: <span class="name"></span></p>
-                <p>Passenger Occupation: <span class="occupation"></span></p>
-                <p>Passenger Status: <span class="status"></span></p>
+            <section class="passengers">
+                <p><span class="name"></span> (<span class="passNum"></span>)</p>
+                <p><span class="occupation"></span></p>
+                <p><span class="status"></span></p>
             </section>
         </script>
 
@@ -44,7 +45,7 @@
 
     </head>
     <body>
-        <h1>Crazy Taxi</h1>
+        <h1 class="title">CRAZY TAXI</h1>
 
         <section>
             <p>Choose Taxi Type:</p>

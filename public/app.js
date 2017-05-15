@@ -1,7 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // Think of app.js as "table of contents" for JS 
 
+
 window.addEventListener('load', function(){
+
+    let passNum = 0;
 
     let TaxiModel = require('./models/taxi');
     let StartView = require('./views/start');
@@ -50,10 +53,12 @@ window.addEventListener('load', function(){
     let PassListView = require('./views/passlist');
 
     let pass1 = new PassModel({
+        passNum : passNum,
         name : "Neilson",
         occupation: "Developer",
         status: "Waiting",
     });
+
 
     let list = new PassCollection([pass1]);
 
@@ -64,8 +69,42 @@ window.addEventListener('load', function(){
 
     listView.render();
     
+    function addNewPassenger(){
 
-    changeStatus(taxi, list);
+    passNum++;
+
+    let request = new XMLHttpRequest(); 
+    request.open('GET', 'https://randomuser.me/api/');  
+    request.addEventListener('load', function(){
+
+
+        let response = JSON.parse(request.responseText);
+
+        let newPass = new PassModel({
+        passNum : passNum,
+        name : response.results[0].name.first,
+        occupation: getRandomOccupation(jobArray),
+        status: "Waiting",
+    });
+    
+    list.add(newPass);
+
+
+    });                 
+    request.send();     
+
+}
+
+    taxi.on('change:gas', function(){
+        if (taxi.x === taxi.passX && taxi.y === taxi.passY) {
+            list.models[passNum].status = "Picked Up";
+            
+        }
+        if (taxi.x === taxi.destX && taxi.y === taxi.destY) {
+            list.models[passNum].status = "Dropped Off";
+            addNewPassenger();
+        }
+    });
 
 
 });
@@ -145,21 +184,16 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function changeStatus(model, collection){
-    model.on('change', function(){
-        let currentPass = 0;
-        if (model.x === model.passX && model.y === model.passY) {
-            collection.models[currentPass].status = "Picked Up";
-            console.log(collection.models[currentPass].status);
-            
-        }
-        if (model.x === model.destX && model.y === model.destY) {
-            collection.models[currentPass].status = "Dropped Off";
-            console.log(collection.models[currentPass].status);
-            
-        }
-    });
+function getRandomOccupation (array){
+    let rand = array[Math.floor(Math.random() * array.length)];
+    return rand;
 }
+
+let jobArray = ["Coder", "Banker", "Florist", "Artist", "Designer", "Plumber", "Cop", "Teacher", "Baker", "Mechanic", "Lawyer"];
+
+
+
+
 
 
 
@@ -169,10 +203,13 @@ let State = require('ampersand-state');
 
 module.exports = State.extend({
     props: {
+        passNum: "number",
         name: "string",
         occupation: "string",
         status: "string",
     },
+
+
 
 });
 
@@ -373,6 +410,7 @@ module.exports = View.extend({
     template: document.querySelector('#pass-template').innerHTML,
 
     bindings: {
+        'model.passNum': '.passNum',
         'model.name': '.name',
         'model.occupation': '.occupation',
         'model.status': '.status',

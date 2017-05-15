@@ -1,17 +1,29 @@
+@import 'node_modules/foundation-sites/scss/foundation';
+@include foundation-global-styles;
+@include foundation-grid;
+
 body {
-    background-color: yellow;
+    background-image: url('https://images6.alphacoders.com/360/360364.jpg');
+    background-size: 100%;
+    background-repeat: repeat;
+    font-family: Roboto;
+    color: white;
 }
 
 td {
-    width: 10px;
-    height: 10px;
+    width: 30px;
+    height: 30px;
     border: solid;
     border-width: 1px;
     border-color: black;
+    background-color: black;
+    opacity: .7;
+    border-radius: 5px;
 }
 
 .highlight {
-    background-color: black;
+    background-color: yellow;
+    opacity: none;
 }
 
 .passhighlight {
@@ -50,4 +62,58 @@ td {
 
 .gameOver {
     display: none;
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+    font-size: .8em;
+}
+
+.passengers {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    width: 15%;
+    padding: 10px;
+    margin: 5px;
+    background-color: white;
+    color: black;
+
+    p {
+        margin: 0px;
+    }
+}
+
+.passNum {
+    margin: 0px;
+}
+
+.name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.occupation {
+    display: inline;
+    margin: 0px;
+}
+
+.status {
+    display: inline;
+    margin: 0px;
+}
+
+.stats {
+    background-color: black;
+    opacity: .7;
+    padding: 15px;
+}
+
+.title {
+    font-size: 3em;
+    display: inline;
+    word-spacing: 30px;
+    letter-spacing: 20px;
 }
