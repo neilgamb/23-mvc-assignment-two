@@ -8,4 +8,6 @@ module.exports = View.extend({
         this.renderWithTemplate();
         this.renderCollection(this.collection, PassView, this.el.querySelector('ul'));
     },
+
+
 });

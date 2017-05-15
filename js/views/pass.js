@@ -13,5 +13,6 @@ module.exports = View.extend({
     render: function(){
         this.renderWithTemplate();
     },
+
 });
 

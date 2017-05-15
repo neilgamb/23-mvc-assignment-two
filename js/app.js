@@ -3,14 +3,9 @@
 window.addEventListener('load', function(){
 
     let TaxiModel = require('./models/taxi');
-    let PassModel = require('./models/pass');
     let StartView = require('./views/start');
     let TaxiView = require('./views/taxi');
     let EndView = require('./views/end');
-    let PassView = require('./views/pass');
-
-    let PassCollection = require('./models/passlist');
-    let PassListView = require('./views/passlist')
 
     // Models //////////////////////////////////////////
     let taxi = new TaxiModel({
@@ -25,20 +20,6 @@ window.addEventListener('load', function(){
         totalFares: 0,
         inUse: false,
     });
-
-    let pass1 = new PassModel({
-        name : "Neilson",
-        occupation: "Developer",
-        status: "Waiting",
-    });
-
-    let pass2 = new PassModel({
-        name : "Colby",
-        occupation: "Developer",
-        status: "Waiting",
-    });
-
-    let list = new PassCollection([pass1, pass2]);
 
     let ShowStart = new StartView({
         el: document.querySelector('#start'),
@@ -55,18 +36,36 @@ window.addEventListener('load', function(){
         model: taxi,
     });
 
-    let listView = new PassListView({
-        el: document.querySelector('#passenger'),
-        collection: list,
-    });
-
-    listView.render();
     ShowStart.render();
     ShowTaxi.render();
     ShowEnd.render();
 
     setupButtons(taxi);
     setupStart(taxi);
+
+    let PassModel = require('./models/pass');
+    let PassView = require('./views/pass');
+    let PassCollection = require('./models/passlist');
+    let PassListView = require('./views/passlist');
+
+    let pass1 = new PassModel({
+        name : "Neilson",
+        occupation: "Developer",
+        status: "Waiting",
+    });
+
+    let list = new PassCollection([pass1]);
+
+    let listView = new PassListView({
+        el: document.querySelector('#passenger'),
+        collection: list,
+    });
+
+    listView.render();
+    
+
+    changeStatus(taxi, list);
+
 
 });
 
@@ -122,20 +121,43 @@ function setupStart(model){
         model.car = 'Hybrid';
         model.x = 9;
         model.y = 9;
-        document.querySelector('pickCar').classList.add('pickCar');
-    });
+
+        if(!document.querySelector('pickCar') === undefined){
+            document.querySelector('pickCar').classList.add('pickCar');
+        }    });
 
     guzzlerBtn.addEventListener('click', function (){
 
         model.car = 'Gas Guzzler';
         model.x = 9;
         model.y = 9;
-        document.querySelector('pickCar').classList.add('pickCar');
+
+        if(!document.querySelector('pickCar') === undefined){
+            document.querySelector('pickCar').classList.add('pickCar');
+        }
     });
 }
 
 function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function changeStatus(model, collection){
+    model.on('change', function(){
+        let currentPass = 0;
+        if (model.x === model.passX && model.y === model.passY) {
+            collection.models[currentPass].status = "Picked Up";
+            console.log(collection.models[currentPass].status);
+            
+        }
+        if (model.x === model.destX && model.y === model.destY) {
+            collection.models[currentPass].status = "Dropped Off";
+            console.log(collection.models[currentPass].status);
+            
+        }
+    });
+}
+
+
