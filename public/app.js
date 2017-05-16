@@ -115,11 +115,11 @@ window.addEventListener('load', function(){
     });     
 
     taxi.on('change:gas', function(){
-        if (taxi.x === taxi.passX && taxi.y === taxi.passY) {
+        if (taxi.x === taxi.passX && taxi.y === taxi.passY && taxi.inUse === false) {
             list.models[passNum].status = "Picked Up";
             
         }
-        if (taxi.x === taxi.destX && taxi.y === taxi.destY) {
+        if (taxi.x === taxi.destX && taxi.y === taxi.destY && taxi.inUse === true) {
             list.models[passNum].status = "Dropped Off";
             addNewPassenger();
         }
@@ -209,8 +209,6 @@ function getRandomOccupation (array){
 }
 
 let jobArray = ["Coder", "Banker", "Florist", "Artist", "Designer", "Plumber", "Cop", "Teacher", "Baker", "Mechanic", "Lawyer"];
-
-
 
 
 
@@ -395,7 +393,6 @@ module.exports = State.extend({
         this.destY = getRandomIntInclusive(0, 19),
         this.inUse = false,
         this.tripComplete = false
-        this.car = null;
     },
 
 });
@@ -510,7 +507,6 @@ module.exports = View.extend({
     events: {
         'click #hybrid': 'playGame',
         'click #gas-guzzler': 'playGame',
-
     },
 
     playGame: function (){
@@ -563,9 +559,9 @@ module.exports = View.extend({
     },
 
     gameOver: function(){
-        if(this.model.gas === 0){
+        if(this.model.gas <= 0){
+            this.router.navigate('end');
             console.log("game over");
-            document.querySelector('.gameOver').classList.remove('gameOver');    
         }
     },
 
@@ -581,6 +577,11 @@ module.exports = View.extend({
 
         });
     },
+
+    events: {
+        'this.model.gas === 0': 'endGame',
+    },
+
 });
 },{"ampersand-view":856}],11:[function(require,module,exports){
 var assign = require('lodash/assign');

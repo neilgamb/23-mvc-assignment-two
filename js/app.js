@@ -114,11 +114,11 @@ window.addEventListener('load', function(){
     });     
 
     taxi.on('change:gas', function(){
-        if (taxi.x === taxi.passX && taxi.y === taxi.passY) {
+        if (taxi.x === taxi.passX && taxi.y === taxi.passY && taxi.inUse === false) {
             list.models[passNum].status = "Picked Up";
             
         }
-        if (taxi.x === taxi.destX && taxi.y === taxi.destY) {
+        if (taxi.x === taxi.destX && taxi.y === taxi.destY && taxi.inUse === true) {
             list.models[passNum].status = "Dropped Off";
             addNewPassenger();
         }
@@ -208,8 +208,6 @@ function getRandomOccupation (array){
 }
 
 let jobArray = ["Coder", "Banker", "Florist", "Artist", "Designer", "Plumber", "Cop", "Teacher", "Baker", "Mechanic", "Lawyer"];
-
-
 
 
 

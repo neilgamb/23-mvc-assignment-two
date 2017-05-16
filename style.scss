@@ -3,11 +3,139 @@
 @include foundation-grid;
 
 body {
+    @include grid-row();
+
     background-image: url('https://images6.alphacoders.com/360/360364.jpg');
     background-size: 100%;
     background-repeat: repeat;
     font-family: 'Pathway Gothic One', sans-serif;
     color: white;
+
+
+    h1 {
+        @include grid-column(12);
+        text-align: center;
+        margin: 0px;
+        font-size: 2em;
+    }
+
+    #sectionOne {
+
+        @include grid-column(12);
+
+        p {
+            text-align: center;
+            font-size: 2em;
+        }
+
+        button {
+                @include grid-column(4);
+                @include grid-column-offset(2);
+                background-color:#5a5e5b;
+                -moz-border-radius:28px;
+                -webkit-border-radius:28px;
+                border-radius:28px;
+                border:1px solid #999999;
+                display:inline-block;
+                cursor:pointer;
+                color:#ffffff;
+                font-family:Arial;
+                font-size:17px;
+                padding:16px 31px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #575757;
+                opacity: .8;
+        }
+
+        button:hover {
+                background-color:#808080;
+        }
+
+    }
+
+    #sectionTwo {
+        @include grid-column(12);
+
+        .stats {
+            @include grid-column(12);
+            font-size: 1.2em;
+            background: black;
+            display: inline;
+            text-align: center;
+            padding: 2px;
+            margin: px;
+
+            p {
+                display: inline;
+                @include grid-column(2);
+                margin: 0px;
+            }
+        }
+
+        .board {
+            @include grid-column(12);
+
+            .dPad {
+                @include grid-column(2);
+                text-align: center;
+                padding-top: 50px;
+
+                button {
+                    background-color:#5a5e5b;
+                    -moz-border-radius:28px;
+                    -webkit-border-radius:28px;
+                    border-radius:28px;
+                    border:1px solid;
+                    display:block;
+                    cursor:pointer;
+                    color:#ffffff;
+                    font-family:Arial;
+                    font-size:17px;
+                    padding:16px 0px;
+                    text-decoration:none;
+                    text-shadow:0px 1px 0px #575757;
+                    opacity: .8;
+                    width: 40%;
+
+                    &#move-left {
+                        display: inline-block;
+                    }
+
+                    &#move-right {
+                        display: inline-block;
+                    }
+
+                    &#move-up {
+                        margin-left: 50px;
+                    }
+
+                    &#move-down {
+                        margin-left: 50px;
+                    }
+                }
+
+                button:hover {
+                    background-color:#808080;
+                }
+            }
+
+            #grid {
+                @include grid-column(8);
+            }
+
+            .passes {
+                @include grid-column(2);
+            }
+        }
+
+        h2 {
+            margin-bottom: 0px;
+            margin-left: 6px;
+        }
+
+    }
+    
+
 }
 
 td {
@@ -36,6 +164,7 @@ td {
 
 #taxi {
     font-weight: bold;
+    color: yellow;
 }
 
 #pass {
@@ -66,24 +195,51 @@ td {
 
 ul {
     padding: 0;
+    margin: 0;
     list-style-type: none;
     font-size: .8em;
+    text-align: left;
 }
 
 .passengers {
     border: solid;
     border-color: black;
     border-width: 1px;
-    width: 15%;
     padding: 10px;
     margin: 5px;
     background-color: white;
     color: black;
+    opacity: .8;
 
     p {
         margin: 0px;
     }
 }
+
+#restart {
+            // @include grid-column(4);
+            // @include grid-column-offset(2);
+            background-color:#5a5e5b;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid #999999;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:17px;
+            padding:16px 31px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #575757;
+            opacity: .8;
+            }
+
+        button:hover {
+            background-color:#808080;
+        }
+
+
 
 .passNum {
     margin: 0px;
@@ -105,11 +261,6 @@ ul {
     margin: 0px;
 }
 
-.stats {
-    background-color: black;
-    opacity: .7;
-    padding: 15px;
-}
 
 .title {
     font-size: 5em;
@@ -117,6 +268,21 @@ ul {
     display: inline;
     word-spacing: 30px;
     letter-spacing: 20px;
+}
+
+
+#sectionThree {
+    h3 {
+        font-size: 3em;
+        margin: 0px;
+        color: red;
+        text-align: center;
+    }
+
+    p {
+        font-size: .5em;
+        color: white;
+    }
 }
 
 
@@ -129,3 +295,10 @@ body > section {
 .show {
     display: block;
 }
+
+body #sectionOne button:last-child:not(:first-child) {
+    float: none;
+    @include grid-column-offset(2);
+    margin-left: 50px;
+}
+

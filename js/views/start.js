@@ -15,7 +15,6 @@ module.exports = View.extend({
     events: {
         'click #hybrid': 'playGame',
         'click #gas-guzzler': 'playGame',
-
     },
 
     playGame: function (){

@@ -42,9 +42,9 @@ module.exports = View.extend({
     },
 
     gameOver: function(){
-        if(this.model.gas === 0){
+        if(this.model.gas <= 0){
+            this.router.navigate('end');
             console.log("game over");
-            document.querySelector('.gameOver').classList.remove('gameOver');    
         }
     },
 
@@ -60,4 +60,9 @@ module.exports = View.extend({
 
         });
     },
+
+    events: {
+        'this.model.gas === 0': 'endGame',
+    },
+
 });

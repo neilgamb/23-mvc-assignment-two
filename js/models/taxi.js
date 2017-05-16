@@ -151,7 +151,6 @@ module.exports = State.extend({
         this.destY = getRandomIntInclusive(0, 19),
         this.inUse = false,
         this.tripComplete = false
-        this.car = null;
     },
 
 });
